@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
-  //PARAMETER MAP WITH ORIGINAL AND ADDITIONAL REQUEST PARAMETERS
+  //PARAMETER MAP WITH ORIGINAL AND EDITED REQUEST PARAMETERS
   Map<String, String[]> extendedParameterMap = new HashMap<>();
 
   //===============================================================
@@ -18,14 +18,20 @@ public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
   public MyHttpServletRequestWrapper(HttpServletRequest request) {
     super(request);
 
-    //CREATE ADDITIONAL REQUEST PARAMETERS
-    String[] age = {"20"};
+    //GET VALUE (OF EXISTING HTTP REQUEST PARAMETER)
+    String heightChanged = request.getParameterMap().get("height")[0];
 
-    //ADD ADDITIONAL REQUEST PARAMETERS TO NEW MAP
-    extendedParameterMap.put("age", age);
+    //EDIT VALUE
+    heightChanged = heightChanged.replace(",", ".");  //1,67 to 1.67
+
+    //CREATE REPLACEMENT REQUEST PARAMETER
+    String[] height = {heightChanged};
 
     //ADD EXISTING REQUEST PARAMETERS TO NEW MAP
     extendedParameterMap.putAll(request.getParameterMap());
+
+    //ADD CHANGED REQUEST PARAMETER TO NEW MAP (overriding exiting with the same key)
+    extendedParameterMap.put("height", height);
 
   }
 

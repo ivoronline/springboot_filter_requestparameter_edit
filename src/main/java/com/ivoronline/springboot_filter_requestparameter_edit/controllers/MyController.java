@@ -11,7 +11,7 @@ public class MyController {
   @ResponseBody
   @RequestMapping("/Hello")
   public String hello(PersonDTO personDTO) {
-    return personDTO.name + " is " + personDTO.age + " years old";
+    return personDTO.name + " is " + personDTO.height + " meters tall";
   }
 
 }
